@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <iostream>
 #include <format>
 #include <iomanip>
@@ -25,17 +26,20 @@ void main_menu() {
     stars();
     cout << "                     MENIU" << endl;
     stars();
-    cout << "Pasirinkima iveskite konsoleje ir paspauskite enter." << endl;
-    stars();
     cout << "1. Valiutos kurso palyginimas su euru." << endl;
     cout << "2. Valiutos pirkimas (EUR -> pasirinkta  valiuta)." << endl;
-    cout << "3. Valiutas pardavimas (pasirinkta valiuta -> EUR)." << endl;
+    cout << "3. Valiutos pardavimas (pasirinkta valiuta -> EUR)." << endl;
     cout << "4. Iseiti." << endl;
     stars();
+    cout << "Pasirinkima iveskite cia:" << endl;
 }
 
 
 int main() {
+    // Prideti console nustatymai, kad matytusi valiutu simboliai. Veikia kartu su #include <windows.h>
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+
     const double GBP_Bendras = 0.8729;
     const double GBP_Pirkti = 0.8600;
     const double GBP_Parduoti  = 0.9220;
@@ -51,6 +55,7 @@ int main() {
     int meniu_ivestis;
     int ivesties_klaidos = 0;
     double nupirkta_suma = 0;
+    double parduota_suma = 0;
 
     do {
         main_menu();
@@ -65,13 +70,13 @@ int main() {
                 cin >> lyginimo_ivestis;
                 switch (lyginimo_ivestis) {
                     case 1:
-                        cout << format("1 EUR = {:.2f} GBP", GBP_Bendras) << endl;
+                        cout << format("1 € = £{:.2f}", GBP_Bendras) << endl;
                         break;
                     case 2:
-                        cout << format("1 EUR = {:.2f} USD", USD_Bendras) << endl;
+                        cout << format("1 € = ${:.2f}", USD_Bendras) << endl;
                         break;
                     case 3:
-                        cout << format("1 EUR = {:.2f} INR", INR_Bendras) << endl;
+                        cout << format("1 € = ₹{:.2f}", INR_Bendras) << endl;
                         break;
                     case 4:
                         break;
@@ -80,32 +85,33 @@ int main() {
                         break;
                 };
                 break;
-            case 2:
+            case 2: {
                 int pirkimo_meniu_ivestis;
                 double pirkimo_ivestis;
-                cout << "Iveskite kuria valiuta norite pirkti: " << endl;
+                int klaidu_kiekis = 0;
+                cout << "Iveskite kuria valiuta norite pirkti:" << endl;
                 valiutos_meniu();
                 cin >> pirkimo_meniu_ivestis;
                 switch (pirkimo_meniu_ivestis) {
                     case 1:
-                        cout << "Iveskite uz kiek EUR noretumete pirkti GBP: " << endl;
+                        cout << "Iveskite uz kiek EUR noretumete pirkti GBP:" << endl;
                         cin >> pirkimo_ivestis;
                         nupirkta_suma = pirkimo_ivestis * GBP_Pirkti;
-                        cout << format("Uz {0} EUR buvo nupirkta {1:.2f} GBP", pirkimo_ivestis,nupirkta_suma) << endl;
+                        cout << format("Uz {0} € buvo nupirkta £{1:.2f}", pirkimo_ivestis,nupirkta_suma) << endl;
                         cout << "Griztama i pagrindini meniu..." << endl;
                         break;
                     case 2:
-                        cout << "Iveskite uz kiek EUR noretumete pirkti USD: " << endl;
+                        cout << "Iveskite uz kiek EUR noretumete pirkti USD:" << endl;
                         cin >> pirkimo_ivestis;
                         nupirkta_suma = pirkimo_ivestis * USD_Pirkti;
-                        cout << format("Uz {0} EUR buvo nupirkta {1:.2f} USD", pirkimo_ivestis,nupirkta_suma) << endl;
+                        cout << format("Uz {0} € buvo nupirkta ${1:.2f}", pirkimo_ivestis,nupirkta_suma) << endl;
                         cout << "Griztama i pagrindini meniu..." << endl;
                         break;
                     case 3:
                         cout << "Iveskite uz kiek EUR noretumete pirkti INR: " << endl;
                         cin >> pirkimo_ivestis;
                         nupirkta_suma = pirkimo_ivestis * INR_Pirkti;
-                        cout << format("Uz {0} EUR buvo nupirkta {1:.2f} INR", pirkimo_ivestis,nupirkta_suma) << endl;
+                        cout << format("Uz {0} € buvo nupirkta ₹{1:.2f}", pirkimo_ivestis,nupirkta_suma) << endl;
                         cout << "Griztama i pagrindini meniu..." << endl;
                         break;
                     case 4:
@@ -114,7 +120,88 @@ int main() {
                         cout << "Ivestas neteisingas pasirinkimas, griztama i pagrindini meniu..." << endl;
                         break;
                 };
+            }
                 break;
+            case 3: {
+                int pardavimo_meniu_ivestis;
+                double pardavimo_ivestis;
+                int klaidu_kiekis = 0;
+                cout << "Iveskite kuria valiuta norite parduoti: " << endl;
+                valiutos_meniu();
+                cin >> pardavimo_meniu_ivestis;
+                switch (pardavimo_meniu_ivestis) {
+                    case 1:
+                        cout << "Iveskite kiek GBP noretumete parduoti: ";
+                        do {
+                            cin >> pardavimo_ivestis;
+                            if (pardavimo_ivestis <= 0 ) {
+                                cout << "Klaida! Ivesta valiutos suma turi buti daugiau uz 0." << endl;
+                                klaidu_kiekis++;
+
+                                if (klaidu_kiekis < 3) {
+                                    cout << "Iveskite GBP suma dar karta. Liko bandymu: " << 3 - klaidu_kiekis << endl;
+                                }
+                            }
+
+                        } while (pardavimo_ivestis <= 0 && klaidu_kiekis < 3);
+
+                        if (klaidu_kiekis == 3) {
+                            cout << "Neteisinga suma ivesta per daug kartu. Griztama i pagrindini meniu..." << endl;
+                            break;
+                        }
+                        parduota_suma = pardavimo_ivestis / GBP_Parduoti;
+                        cout << format("£{0} buvo parduota uz {1:.2f} €", pardavimo_ivestis,parduota_suma) << endl;
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                        break;
+                    case 2:
+                        cout << "Iveskite kiek USD noretumete parduoti: ";
+                        do {
+                            cin >> pardavimo_ivestis;
+                            if (pardavimo_ivestis <= 0 ) {
+                                cout << "Klaida! Ivesta valiutos suma turi buti daugiau uz 0." << endl;
+                                klaidu_kiekis++;
+
+                                if (klaidu_kiekis < 3) {
+                                    cout << "Iveskite USD suma dar karta. Liko bandymu: " << 3 - klaidu_kiekis << endl;
+                                }
+                            }
+
+                        } while (pardavimo_ivestis <= 0 && klaidu_kiekis < 3);
+
+                        if (klaidu_kiekis == 3) {
+                            cout << "Neteisinga suma ivesta per daug kartu. Griztama i pagrindini meniu..." << endl;
+                            break;
+                        }
+                        parduota_suma = pardavimo_ivestis / USD_Parduoti;
+                        cout << format("${0} buvo parduota uz {1:.2f} €", pardavimo_ivestis,parduota_suma) << endl;
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                        break;
+                    case 3:
+                        cout << "Iveskite kiek INR noretumete parduoti:" << endl;
+                        do {
+                            cin >> pardavimo_ivestis;
+                            if (pardavimo_ivestis <= 0 ) {
+                                cout << "Klaida! Ivesta valiutos suma turi buti daugiau uz 0." << endl;
+                                klaidu_kiekis++;
+
+                                if (klaidu_kiekis < 3) {
+                                    cout << "Iveskite INR suma dar karta. Liko bandymu: " << 3 - klaidu_kiekis << endl;
+                                }
+                            }
+
+                        } while (pardavimo_ivestis <= 0 && klaidu_kiekis < 3);
+
+                        if (klaidu_kiekis == 3) {
+                            cout << "Neteisinga suma ivesta per daug kartu. Griztama i pagrindini meniu..." << endl;
+                            break;
+                        }
+                        parduota_suma = pardavimo_ivestis / INR_Parduoti;
+                        cout << format("₹{0} buvo parduota uz {1:.2f} €", pardavimo_ivestis,parduota_suma) << endl;
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                        break;
+                }
+                break;
+            }
             case 4:
                 cout << "Programa isjungiama..." << endl;
                 break;
