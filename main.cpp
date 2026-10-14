@@ -71,12 +71,15 @@ int main() {
                 switch (lyginimo_ivestis) {
                     case 1:
                         cout << format("1 € = £{:.2f}", GBP_Bendras) << endl;
+                        cout << format("£1 = {:.2f} €", 1 / GBP_Bendras) << endl;
                         break;
                     case 2:
                         cout << format("1 € = ${:.2f}", USD_Bendras) << endl;
+                        cout << format("$1 = {:.2f} €", 1 / USD_Bendras) << endl;
                         break;
                     case 3:
                         cout << format("1 € = ₹{:.2f}", INR_Bendras) << endl;
+                        cout << format("₹1 = {:.2f} €", 1 / INR_Bendras) << endl;
                         break;
                     case 4:
                         break;
