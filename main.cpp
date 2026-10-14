@@ -80,6 +80,41 @@ int main() {
                         break;
                 };
                 break;
+            case 2:
+                int pirkimo_meniu_ivestis;
+                double pirkimo_ivestis;
+                cout << "Iveskite kuria valiuta norite pirkti: " << endl;
+                valiutos_meniu();
+                cin >> pirkimo_meniu_ivestis;
+                switch (pirkimo_meniu_ivestis) {
+                    case 1:
+                        cout << "Iveskite uz kiek EUR noretumete pirkti GBP: " << endl;
+                        cin >> pirkimo_ivestis;
+                        nupirkta_suma = pirkimo_ivestis * GBP_Pirkti;
+                        cout << format("Uz {0} EUR buvo nupirkta {1:.2f} GBP", pirkimo_ivestis,nupirkta_suma) << endl;
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                        break;
+                    case 2:
+                        cout << "Iveskite uz kiek EUR noretumete pirkti USD: " << endl;
+                        cin >> pirkimo_ivestis;
+                        nupirkta_suma = pirkimo_ivestis * USD_Pirkti;
+                        cout << format("Uz {0} EUR buvo nupirkta {1:.2f} USD", pirkimo_ivestis,nupirkta_suma) << endl;
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                        break;
+                    case 3:
+                        cout << "Iveskite uz kiek EUR noretumete pirkti INR: " << endl;
+                        cin >> pirkimo_ivestis;
+                        nupirkta_suma = pirkimo_ivestis * INR_Pirkti;
+                        cout << format("Uz {0} EUR buvo nupirkta {1:.2f} INR", pirkimo_ivestis,nupirkta_suma) << endl;
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        cout << "Ivestas neteisingas pasirinkimas, griztama i pagrindini meniu..." << endl;
+                        break;
+                };
+                break;
             case 4:
                 cout << "Programa isjungiama..." << endl;
                 break;
