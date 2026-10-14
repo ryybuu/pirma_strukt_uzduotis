@@ -95,21 +95,69 @@ int main() {
                 switch (pirkimo_meniu_ivestis) {
                     case 1:
                         cout << "Iveskite uz kiek EUR noretumete pirkti GBP:" << endl;
-                        cin >> pirkimo_ivestis;
+                        do {
+                            cin >> pirkimo_ivestis;
+                            if (pirkimo_ivestis <= 0 ) {
+                                cout << "Klaida! Ivesta valiutos suma turi buti daugiau uz 0." << endl;
+                                klaidu_kiekis++;
+
+                                if (klaidu_kiekis < 3) {
+                                    cout << "Iveskite EUR suma dar karta. Liko bandymu: " << 3 - klaidu_kiekis << endl;
+                                }
+                            }
+
+                        } while (pirkimo_ivestis <= 0 && klaidu_kiekis < 3);
+
+                        if (klaidu_kiekis == 3) {
+                            cout << "Neteisinga suma ivesta per daug kartu. Griztama i pagrindini meniu..." << endl;
+                            break;
+                        }
                         nupirkta_suma = pirkimo_ivestis * GBP_Pirkti;
                         cout << format("Uz {0} € buvo nupirkta £{1:.2f}", pirkimo_ivestis,nupirkta_suma) << endl;
                         cout << "Griztama i pagrindini meniu..." << endl;
                         break;
                     case 2:
                         cout << "Iveskite uz kiek EUR noretumete pirkti USD:" << endl;
-                        cin >> pirkimo_ivestis;
+                        do {
+                            cin >> pirkimo_ivestis;
+                            if (pirkimo_ivestis <= 0 ) {
+                                cout << "Klaida! Ivesta valiutos suma turi buti daugiau uz 0." << endl;
+                                klaidu_kiekis++;
+
+                                if (klaidu_kiekis < 3) {
+                                    cout << "Iveskite EUR suma dar karta. Liko bandymu: " << 3 - klaidu_kiekis << endl;
+                                }
+                            }
+
+                        } while (pirkimo_ivestis <= 0 && klaidu_kiekis < 3);
+
+                        if (klaidu_kiekis == 3) {
+                            cout << "Neteisinga suma ivesta per daug kartu. Griztama i pagrindini meniu..." << endl;
+                            break;
+                        }
                         nupirkta_suma = pirkimo_ivestis * USD_Pirkti;
                         cout << format("Uz {0} € buvo nupirkta ${1:.2f}", pirkimo_ivestis,nupirkta_suma) << endl;
                         cout << "Griztama i pagrindini meniu..." << endl;
                         break;
                     case 3:
                         cout << "Iveskite uz kiek EUR noretumete pirkti INR: " << endl;
-                        cin >> pirkimo_ivestis;
+                        do {
+                            cin >> pirkimo_ivestis;
+                            if (pirkimo_ivestis <= 0 ) {
+                                cout << "Klaida! Ivesta valiutos suma turi buti daugiau uz 0." << endl;
+                                klaidu_kiekis++;
+
+                                if (klaidu_kiekis < 3) {
+                                    cout << "Iveskite EUR suma dar karta. Liko bandymu: " << 3 - klaidu_kiekis << endl;
+                                }
+                            }
+
+                        } while (pirkimo_ivestis <= 0 && klaidu_kiekis < 3);
+
+                        if (klaidu_kiekis == 3) {
+                            cout << "Neteisinga suma ivesta per daug kartu. Griztama i pagrindini meniu..." << endl;
+                            break;
+                        }
                         nupirkta_suma = pirkimo_ivestis * INR_Pirkti;
                         cout << format("Uz {0} € buvo nupirkta ₹{1:.2f}", pirkimo_ivestis,nupirkta_suma) << endl;
                         cout << "Griztama i pagrindini meniu..." << endl;
